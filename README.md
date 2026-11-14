@@ -6,19 +6,14 @@ A clean, institutional-grade web application built for tracking Nepal Stock Exch
 
 ## 📷 Application Previews
 
-### 1. Live Market Terminal
 ![Live Market Terminal](terminal-preview.png.png)
 
-### 2. Share Calculator
 ![Share Calculator](calculator-preview.png.png)
 
-### 3. Holding Summary & Live Valuation
 ![Holding Summary](portfolio-valuation.png.png)
 
-### 4. Sector Allocation Distribution
 ![Sector Allocation](sector-allocation.png.png)
 
-### 5. Chronological Purchase & Sell Records
 ![Purchase Records](purchase-ledger.png.png)
 
 ---
