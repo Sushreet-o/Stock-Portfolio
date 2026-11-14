@@ -48,12 +48,12 @@ A professional-grade, institutional-style web application built for tracking Nep
 
 ## 📷 Screenshots
 
-![Live Market Terminal](Screenshot%202026-11-14%20102649.png)
+![Live Market Terminal](terminal-preview.png)
 
-![Share Calculator](Screenshot%202026-11-14%20102656.png)
+![Share Calculator](calculator-preview.png)
 
-![Holding Summary](Screenshot%202026-11-14%20102710.png)
+![Holding Summary](portfolio-valuation.png)
 
-![Sector Allocation](Screenshot%202026-11-14%20102717.png)
+![Sector Allocation](sector-allocation.png)
 
-![Purchase Records](Screenshot%202026-11-14%20102724.png)
+![Purchase Records](purchase-ledger.png)
