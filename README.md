@@ -1,21 +1,39 @@
-# 📊 NEPSE Terminal & Portfolio Ledger
+# 📊 NEPSE Market Terminal, Share Calculator & Portfolio Ledger
 
-A clean, institutional-style web application for tracking Nepal Stock Exchange (NEPSE) scrips, calculating buy/sell fees, and managing multi-fiscal-year portfolio ledgers with real-time exchange feeds.
+A clean, institutional-grade web application built for tracking Nepal Stock Exchange (NEPSE) live data, calculating exact buy/sell transaction fees, and managing multi-fiscal-year portfolio ledgers with real-time valuation and sector allocation.
 
-## ✨ Key Features
-- **Live Exchange Terminal:** Real-time market feed with index summary KPIs, search filtering, and multi-column sorting.
-- **Smart Share Calculator:** Calculates buy/sell operations with NEPSE-specific fee structures (Broker Commission, SEBON Commission, DP Fee, and CGT).
-- **Tabbed Portfolio Ledger:** Displays holdings, live market valuation, unrealized profit/loss, purchase history, and sell ledgers.
-- **Chronological Sorting:** Automatically sorts all transaction records serially by date (`YYYY-MM-DD`).
-- **Fiscal Year Management:** Isolates local storage data organized by Nepalese fiscal years (e.g., `2083_084`).
-- **Sector Allocation:** Visual breakdown of capital distribution across market sectors.
+---
 
-## 📁 Tech Stack
-- **Frontend:** HTML5, CSS3, Modern Vanilla JavaScript (ES6+)
-- **Data Persistence:** Browser `localStorage`
-- **Data Source:** Live JSON API Feed
+## 📷 Application Previews
 
-## 🚀 Local Setup & Running
-1. Clone or download this repository:
+### 1. Live Market Terminal
+![Live Market Terminal](terminal-preview.png.png)
+
+### 2. Share Calculator
+![Share Calculator](calculator-preview.png.png)
+
+### 3. Holding Summary & Live Valuation
+![Holding Summary](portfolio-valuation.png.png)
+
+### 4. Sector Allocation Distribution
+![Sector Allocation](sector-allocation.png.png)
+
+### 5. Chronological Purchase & Sell Records
+![Purchase Records](purchase-ledger.png.png)
+
+---
+
+## ✨ Core Features
+* **Institutional Real-Time Terminal:** Live market feed displaying LTP, point changes, percentage change, open/max/min prices, and trading volumes.
+* **Smart Fee Engine:** Automatically applies regulatory deductions (Broker fees, SEBON, DP fee, and CGT brackets).
+* **Tabbed Portfolio Ledger:** Clean separation between Holding Valuations, Sector Allocation Bars, Purchase Records, and Sell Records.
+* **Chronological Sorting:** Automatically sorts transaction ledgers sequentially by date.
+* **Fiscal Year Separation:** Isolates local data storage by Nepalese Fiscal Years (e.g., `FY 2083/084`).
+* **Privacy & Local Storage:** Runs completely client-side using browser `localStorage` with no external database dependency.
+
+---
+
+## 🚀 Getting Started Locally
+1. Clone the repository:
    ```bash
    git clone [https://github.com/Sushreet-o/nepse-terminal.git](https://github.com/Sushreet-o/nepse-terminal.git)
