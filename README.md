@@ -1,39 +1,47 @@
 # 📊 NEPSE Market Terminal, Share Calculator & Portfolio Ledger
 
-A clean, institutional-grade web application built for tracking Nepal Stock Exchange (NEPSE) live data, calculating exact secondary and IPO buy/sell transaction fees, and managing multi-fiscal-year portfolio ledgers with real-time valuation and sector allocation.
+A professional-grade, institutional-style web application built for tracking Nepal Stock Exchange (NEPSE) live data, calculating exact buy/sell transaction fees, and managing multi-fiscal-year portfolio ledgers with real-time valuation and sector allocation. Originally developed to solve local trading calculation complexities, this project features a clean, clutter-free interface free of unnecessary watchlists or star features.
 
-## ✨ Features
+---
 
-### Market Terminal & Feed
-* Live exchange feed fetching real-time market data
-* Index summary KPIs showing market indices and total turnover
-* Search filtering by scrip symbol or company name
-* Multi-column sorting for Last Traded Price (LTP), percentage change, open, high, low, and volume
+## ✨ Key Features
 
-### Smart Share Calculator
-* Accurate fee computation for **Buy** and **Sell** operations
-* Incorporates official regulatory structures:
+### 📈 Live Market Terminal
+* Real-time exchange feed fetching live JSON data
+* Live macro market indices bar (NEPSE Index and Sensitive Index)
+* Summary KPI strip tracking Total Turnover, Total Volume, and Total Transactions
+* Interactive multi-column sorting (Symbol, LTP, Point Change, % Change, Qty, Txns)
+* Instant search filter by scrip symbol or company name
+
+### 🧮 Smart Share Calculator
+* Dedicated calculation engine for both **Buy** and **Sell** operations
+* Multi-fiscal-year and custom date selection (`YYYY-MM-DD`)
+* Automated regulatory fee deductions:
   * SEBON Commission (0.015%)
-  * Tiered Broker Commissions
-  * Flat DP Fee (Rs 25)
-  * Capital Gains Tax (CGT) brackets for short-term and long-term holdings
+  * Tiered Broker Commission based on transaction volume brackets
+  * Depository Participant (DP) Fee (Rs 25)
+  * Capital Gain Tax (CGT) calculation brackets (3%, 5%, 7.5%, 10%, 15%) for sales
+* Effective per-share cost basis and net payout calculation
 
-### Tabbed Portfolio Ledger
-* **Holding Summary & Valuation:** Tracks remaining units (kitta), average cost, total investment, live LTP valuation, and unrealized profit/loss
-* **Sector Allocation:** Visual capital distribution breakdown across sectors (Commercial Banks, Life Insurance, Hydropower, Microfinance, Hotels, etc.)
-* **Purchase & Sell Records:** Chronological transaction ledgers automatically sorted serially by date (`YYYY-MM-DD`) with edit and delete capabilities
+### 📊 Tabbed Portfolio Ledger & Valuation
+* **Holding Summary & Valuation:** Tracks remaining shares (kitta), weighted average cost per share, total investment, live LTP market value, and unrealized profit/loss
+* **Sector Allocation:** Visual progress bars displaying capital distribution across sectors (Commercial Banks, Hydropower, Life/Non-Life Insurance, Microfinance, Hotels & Tourism, Finance)
+* **Purchase Records:** Chronological ledger of all buy transactions with edit and delete capabilities
+* **Sell Records:** Chronological ledger of all sell transactions with net profit tracking
 
-### Fiscal Year & Storage Management
-* Isolates local storage data organized by Nepalese Fiscal Years (e.g., `FY 2083/084`)
-* Runs completely client-side using browser `localStorage` for complete data privacy and offline persistence
+---
+
+## 🔒 Architecture & Data Storage
+* **Client-Side Persistence:** Secure local data storage managed via browser `localStorage` isolated by Nepalese Fiscal Year keys (e.g., `FY 2083/084`)
+* **Chronological Sorting:** Automated serial sorting of all transaction logs by date (`YYYY-MM-DD`)
+* **Responsive Layout:** Optimized dark-themed institutional terminal interface for desktop and mobile displays
+
+---
 
 ## 🛠️ Technology Used
-* HTML5 & CSS3
-* Modern Vanilla JavaScript (ES6+)
-* Browser `localStorage` API
-* Git and GitHub
+* **Frontend:** HTML5, CSS3, Modern Vanilla JavaScript (ES6+)
+* **Data Persistence:** Browser `localStorage`
+* **Data Feed:** Real-time GitHub JSON exchange API
+* **Version Control:** Git and GitHub (`Sushreet-o`)
 
-## 🚀 Local Setup
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/Sushreet-o/nepse-terminal.git](https://github.com/Sushreet-o/nepse-terminal.git)
+---
