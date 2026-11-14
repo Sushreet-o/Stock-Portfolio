@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEPSE Terminal & Share Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- TOP SECTION: PROFESSIONAL LIVE NEPSE MARKET TERMINAL -->
+    <section id="live-market-section" style="padding: 24px 32px; background: #050b0b; border-bottom: 2px solid #1f4d4d;">
+        <div style="max-width: 1400px; margin: 0 auto;">
+
+            <!-- Terminal Header & Macro Market Indices Bar -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h2 style="color: #00e676; margin: 0 0 4px 0; font-size: 20px; font-weight: 700;">📊 NEPSE Market Terminal</h2>
+                    <span style="font-size: 12px; color: #80cbc4;">Institutional Real-Time Exchange Feed</span>
+                </div>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div style="background: #112525; border: 1px solid #1f4d4d; padding: 6px 12px; border-radius: 8px; font-size: 12px;">
+                        <span style="color: #80cbc4;">NEPSE Index:</span> <strong id="nepseIndexVal" style="color: #fff;">--</strong> <span id="nepseIndexChange" style="color: #00e676;">--</span>
+                    </div>
+                    <div style="background: #112525; border: 1px solid #1f4d4d; padding: 6px 12px; border-radius: 8px; font-size: 12px;">
+                        <span style="color: #80cbc4;">Sensitive:</span> <strong id="sensIndexVal" style="color: #fff;">--</strong> <span id="sensIndexChange" style="color: #00e676;">--</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <input type="text" id="tableSearchInput" placeholder="Filter symbol or company..." onkeyup="filterMarketTable()" style="background: #112525; border: 1px solid #1f4d4d; color: #fff; padding: 8px 14px; border-radius: 6px; font-size: 13px; width: 200px; outline: none;">
+                    <span id="market-status-text" style="background: rgba(0, 230, 118, 0.1); border: 1px solid rgba(0, 230, 118, 0.3); padding: 6px 14px; border-radius: 20px; font-size: 13px; color: #00e676; font-weight: 600;">🟢 Live Connected</span>
+                </div>
+            </div>
+
+            <!-- Market Summary KPI Strip -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 16px;">
+                <div style="background: #0b1919; border: 1px solid #1f4d4d; padding: 10px 14px; border-radius: 8px;">
+                    <div style="font-size: 11px; color: #80cbc4; text-transform: uppercase;">Total Turnover</div>
+                    <div id="kpiTurnover" style="font-size: 15px; font-weight: 700; color: #fff; margin-top: 2px;">Rs 0.00</div>
+                </div>
+                <div style="background: #0b1919; border: 1px solid #1f4d4d; padding: 10px 14px; border-radius: 8px;">
+                    <div style="font-size: 11px; color: #80cbc4; text-transform: uppercase;">Total Volume</div>
+                    <div id="kpiVolume" style="font-size: 15px; font-weight: 700; color: #fff; margin-top: 2px;">0</div>
+                </div>
+                <div style="background: #0b1919; border: 1px solid #1f4d4d; padding: 10px 14px; border-radius: 8px;">
+                    <div style="font-size: 11px; color: #80cbc4; text-transform: uppercase;">Total Transactions</div>
+                    <div id="kpiTxn" style="font-size: 15px; font-weight: 700; color: #fff; margin-top: 2px;">0</div>
+                </div>
+            </div>
+
+            <!-- Scrollable Professional Table Container -->
+            <div style="max-height: 450px; overflow-y: auto; border: 1px solid #1f4d4d; border-radius: 10px; background: #0b1919; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
+                <table id="liveMarketTable" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+                    <thead style="position: sticky; top: 0; background: #112525; color: #80cbc4; z-index: 10; border-bottom: 2px solid #1f4d4d; cursor: pointer;">
+                        <tr>
+                            <th style="padding: 12px 15px; font-weight: 600;" onclick="sortTable('symbol')">Symbol ↕</th>
+                            <th style="padding: 12px 15px; text-align: right; font-weight: 600;" onclick="sortTable('ltp')">LTP ↕</th>
+                            <th style="padding: 12px 15px; text-align: right; font-weight: 600;" onclick="sortTable('diff')">Chg ↕</th>
+                            <th style="padding: 12px 15px; text-align: right; font-weight: 600;" onclick="sortTable('percent')">% Chg ↕</th>
+                            <th style="padding: 12px 15px; text-align: right; font-weight: 600;">Max Price</th>
+                            <th style="padding: 12px 15px; text-align: right; font-weight: 600;">Min Price</th>
+                            <th style="padding: 12px 15px; text-align: right; font-weight: 600;">Open</th>
+                            <th style="padding: 12px 15px; text-align: right; font-weight: 600;" onclick="sortTable('qty')">Qty ↕</th>
+                            <th style="padding: 12px 15px; text-align: right; font-weight: 600;" onclick="sortTable('txn')">Txn ↕</th>
+                        </tr>
+                    </thead>
+                    <tbody id="live-table-body" style="color: #f0fdf4;">
+                        <tr>
+                            <td colspan="9" style="text-align: center; padding: 40px; color: #80cbc4;">Loading institutional market feed...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Background Animation Container -->
+    <div class="bg-animation">
+        <img src="bull.png" class="float-icon icon-1" alt="">
+        <img src="bear.png" class="float-icon icon-2" alt="">
+        <img src="candle.png" class="float-icon icon-3" alt="">
+        <img src="nepse-logo.png" class="float-icon icon-4" alt="">
+    </div>
+
+    <!-- BOTTOM SECTION: SHARE CALCULATOR & PORTFOLIO LEDGER -->
+    <div class="calculator-scroll-section">
+        <div class="app-wrapper calculator-wrapper-full">
+            <div class="calculator-container wide-layout" id="mainContainer">
+
+                <!-- Main Form Wrapper -->
+                <div class="form-section">
+                    <h2>Share Calculator</h2>
+
+                    <!-- Tabs to switch between Buy and Sell -->
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('buy')">Buy</button>
+                        <button class="tab-btn" onclick="switchTab('sell')">Sell</button>
+                    </div>
+
+                    <!-- Fiscal Year & Custom Date Selection Row -->
+                    <div class="input-row custom-input-row">
+                        <div class="input-group custom-input-group">
+                            <label>Fiscal Year:</label>
+                            <select id="fiscalYearSelect">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="input-group custom-input-group">
+                            <label>Date (YYYY-MM-DD):</label>
+                            <input type="text" id="txDate" placeholder="e.g. 2083-06-02" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <!-- Company Search Input -->
+                    <div class="input-group">
+                        <label>Search company</label>
+                        <input type="text" id="companyName" placeholder="Search company" list="nepseCompanies" autocomplete="off">
+                        <datalist id="nepseCompanies">
+                            <!-- Populated dynamically by JavaScript -->
+                        </datalist>
+                    </div>
+
+                    <!-- Buy Type, Quantity of Shares, & CGT Rate Row -->
+                    <div class="input-row custom-input-row">
+                        <div class="input-group custom-input-group flex-col-group" id="buyTypeGroup">
+                            <label class="label-spaced">Buy Type:</label>
+                            <select id="buyType" class="full-width-select">
+                                <option value="ipo">IPO</option>
+                                <option value="secondary">Secondary Buy</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group custom-input-group flex-col-group">
+                            <label class="label-spaced">Quantity of Shares:</label>
+                            <input type="number" id="shareQty" placeholder="e.g. 100" class="full-width-input">
+                        </div>
+
+                        <div class="input-group custom-input-group flex-col-group" id="cgtRateWrapper" style="display: none;">
+                            <label class="label-spaced">C.G.T Rate (%):</label>
+                            <select id="cgtRate" class="full-width-select">
+                                <option value="3">3%</option>
+                                <option value="5">5%</option>
+                                <option value="7.5" selected>7.5%</option>
+                                <option value="10">10%</option>
+                                <option value="15">15%</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Purchased Price & Selling Price Row -->
+                    <div class="input-row custom-input-row">
+                        <div class="input-group custom-input-group flex-col-group" id="purchasedPriceGroup" style="display: none;">
+                            <label class="label-spaced">Purchased Price (Per Unit):</label>
+                            <input type="number" id="purchasedPrice" placeholder="e.g. 500" class="full-width-input">
+                        </div>
+
+                        <div class="input-group custom-input-group flex-col-group">
+                            <label id="price-label" class="label-spaced">Buying Price per Share (Rs):</label>
+                            <input type="number" id="sharePrice" placeholder="e.g. 500" class="full-width-input">
+                        </div>
+                    </div>
+
+                    <button id="calculateBtn" onclick="calculateShare()">CALCULATE</button>
+                </div>
+
+                <!-- Results Display Box -->
+                <div class="result-box result-box-padded" id="resultBox">
+                    <div class="portfolio-nav-container">
+                        <a href="portfolio.html" class="portfolio-nav-btn">&rarr; View Portfolio</a>
+                    </div>
+
+                    <div class="result-row">
+                        <span id="totalShareLabel">Total Purchase Amount:</span>
+                        <span id="resTotalShare">Rs 0.00</span>
+                    </div>
+                    <div class="result-row">
+                        <span>SEBON Commission:</span>
+                        <span id="resSebon">Rs 0.00</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Broker Commission:</span>
+                        <span id="resBroker">Rs 0.00</span>
+                    </div>
+                    <div class="result-row">
+                        <span>DP Fee:</span>
+                        <span id="resDp">Rs 0.00</span>
+                    </div>
+                    <div class="result-row" id="taxRow" style="display: none;">
+                        <span>Capital Gain Tax:</span>
+                        <span id="resTax">Rs 0.00</span>
+                    </div>
+
+                    <hr id="midDivider">
+
+                    <div class="result-row result-row-tax">
+                        <span id="totalWithTaxLabel">Total purchase amount (with tax):</span>
+                        <span id="resTotalWithTax">Rs 0.00</span>
+                    </div>
+
+                    <div class="result-row result-row-pershare">
+                        <span id="perShareLabel">Cost Per Share:</span>
+                        <span id="resPerShare">Rs 0.00</span>
+                    </div>
+
+                    <hr>
+                    <div class="result-row total-pay">
+                        <span id="finalLabel">Total Paying Amount:</span>
+                        <span id="resFinal">Rs 0.00</span>
+                    </div>
+                    <div class="result-row profit-row" id="profitDisplay" style="display: none;">
+                        <span>Net Profit:</span>
+                        <span id="resProfit">Rs 0.00</span>
+                    </div>
+
+                    <button id="saveBtn" onclick="saveTransactionToPortfolio()" style="display:none;">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Professional Centered Modal Dialog Box -->
+    <div id="customModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-icon">⚠️</div>
+            <h3 id="modalTitle">Notice</h3>
+            <p id="modalMessage">This is a message.</p>
+            <button class="modal-btn" onclick="closeCustomModal()">OK</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    loadLiveMarketTicker();
+                    setInterval(loadLiveMarketTicker, 60000);
+                });
+    </script>
+</body>
+</html>

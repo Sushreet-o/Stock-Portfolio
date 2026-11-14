@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEPSE Portfolio Ledger & Share Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .portfolio-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        /* Tab Navigation Styling */
+        .portfolio-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #1f4d4d;
+            padding-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .portfolio-tab-btn {
+            background: #112525;
+            border: 1px solid #1f4d4d;
+            color: #80cbc4;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+            .portfolio-tab-btn:hover {
+                border-color: #00e676;
+                color: #fff;
+            }
+
+            .portfolio-tab-btn.active {
+                background: #1f4d4d;
+                color: #00e676;
+                border-color: #00e676;
+            }
+
+        .tab-content {
+            display: none;
+        }
+
+            .tab-content.active {
+                display: block;
+            }
+
+        .portfolio-table-container {
+            background: #0b1919;
+            border: 1px solid #1f4d4d;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            margin-bottom: 25px;
+        }
+
+        .portfolio-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13px;
+        }
+
+            .portfolio-table th {
+                background: #112525;
+                color: #80cbc4;
+                padding: 14px 16px;
+                font-weight: 600;
+                border-bottom: 2px solid #1f4d4d;
+            }
+
+            .portfolio-table td {
+                padding: 12px 16px;
+                border-bottom: 1px solid rgba(31, 77, 77, 0.4);
+                color: #f0fdf4;
+            }
+
+            .portfolio-table tr:hover {
+                background: #112525;
+            }
+
+        .action-btn {
+            background: transparent;
+            border: 1px solid #1f4d4d;
+            color: #80cbc4;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.2s ease;
+            margin-right: 4px;
+        }
+
+            .action-btn:hover {
+                background: #1f4d4d;
+                color: #fff;
+            }
+
+            .action-btn.delete:hover {
+                background: rgba(255, 82, 82, 0.2);
+                border-color: #ff5252;
+                color: #ff5252;
+            }
+
+        .nav-back-btn {
+            background: #112525;
+            border: 1px solid #1f4d4d;
+            color: #00e676;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+            .nav-back-btn:hover {
+                background: #1f4d4d;
+            }
+
+        .sector-bar-wrapper {
+            background: #0b1919;
+            border: 1px solid #1f4d4d;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .sector-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .sector-progress-bg {
+            flex-grow: 1;
+            background: #112525;
+            height: 10px;
+            border-radius: 5px;
+            margin: 0 15px;
+            overflow: hidden;
+            border: 1px solid #1f4d4d;
+        }
+
+        .sector-progress-fill {
+            background: #00e676;
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.4s ease;
+        }
+    </style>
+</head>
+<body style="background: #050b0b; padding: 30px 20px;">
+
+    <div style="max-width: 1300px; margin: 0 auto;">
+
+        <!-- Header & Navigation -->
+        <div class="portfolio-header">
+            <div>
+                <h1 style="color: #00e676; margin: 0 0 6px 0; font-size: 24px;">📊 Portfolio & Stock Transaction Ledger</h1>
+                <span style="color: #80cbc4; font-size: 13px;">Live Valuation, Sector Allocation, and Chronological Ledger</span>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <div>
+                    <label style="color: #80cbc4; font-size: 12px; margin-right: 6px;">Fiscal Year:</label>
+                    <select id="portfolioFySelect" onchange="loadPortfolioData()" style="background: #112525; border: 1px solid #1f4d4d; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 13px; outline: none;">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+                <a href="index.html" class="nav-back-btn">&larr; Back to Calculator</a>
+            </div>
+        </div>
+
+        <!-- Tab Navigation Buttons -->
+        <div class="portfolio-tabs">
+            <button class="portfolio-tab-btn active" onclick="switchPortfolioTab('summary', this)">📈 Holding Summary & Valuation</button>
+            <button class="portfolio-tab-btn" onclick="switchPortfolioTab('sectors', this)">🥧 Sector Allocation</button>
+            <button class="portfolio-tab-btn" onclick="switchPortfolioTab('purchases', this)">📥 Purchase Records</button>
+            <button class="portfolio-tab-btn" onclick="switchPortfolioTab('sells', this)">📤 Sell Records</button>
+        </div>
+
+        <!-- TAB 1: Holding Summary & Live Valuation (Feature 2) -->
+        <div id="tab-summary" class="tab-content active">
+            <div class="portfolio-table-container">
+                <table class="portfolio-table">
+                    <thead>
+                        <tr>
+                            <th>Company Code</th>
+                            <th style="text-align: right;">Remaining Kitta</th>
+                            <th style="text-align: right;">Avg Cost / Share</th>
+                            <th style="text-align: right;">Total Investment</th>
+                            <th style="text-align: right;">Live LTP</th>
+                            <th style="text-align: right;">Market Value</th>
+                            <th style="text-align: right;">Unrealized P/L</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rollup-table-body">
+                        <tr><td colspan="7" style="text-align: center; padding: 40px; color: #80cbc4;">Loading holdings and live market valuation...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 2: Sector-wise Allocation (Feature 4) -->
+        <div id="tab-sectors" class="tab-content">
+            <div class="sector-bar-wrapper">
+                <h3 style="color: #00e676; margin-top: 0; margin-bottom: 20px; font-size: 16px;">Portfolio Capital Distribution by Sector</h3>
+                <div id="sector-allocation-container">
+                    <p style="color: #80cbc4; text-align: center; padding: 20px;">No sector data available yet.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Purchase Records -->
+        <div id="tab-purchases" class="tab-content">
+            <div class="portfolio-table-container">
+                <table class="portfolio-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Company Code</th>
+                            <th>Buy Type</th>
+                            <th style="text-align: right;">Buy Kitta (Qty)</th>
+                            <th style="text-align: right;">Price per Unit</th>
+                            <th style="text-align: right;">Total Amount (with Tax)</th>
+                            <th style="text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="purchase-table-body">
+                        <tr><td colspan="7" style="text-align: center; padding: 40px; color: #80cbc4;">No purchase records saved.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 4: Sell Records -->
+        <div id="tab-sells" class="tab-content">
+            <div class="portfolio-table-container">
+                <table class="portfolio-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Company Code</th>
+                            <th style="text-align: right;">Sell Kitta (Qty)</th>
+                            <th style="text-align: right;">Selling Price</th>
+                            <th style="text-align: right;">Purchased Price Ref</th>
+                            <th style="text-align: right;">Net Received Amount</th>
+                            <th style="text-align: right;">Net Profit</th>
+                            <th style="text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sell-table-body">
+                        <tr><td colspan="8" style="text-align: center; padding: 40px; color: #80cbc4;">No sell records saved.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+                // Simple sector classification helper for NEPSE symbols
+                function getSectorSymbol(symbol) {
+                    const banking = ["NABIL", "NIMB", "SCB", "HBL", "SBI", "EBL", "NICA", "MBL", "LSL", "KBL", "SBL", "SANIMA", "PRVU", "GBIME", "CZBIL", "PCBL", "NMB", "ADBL", "NBL"];
+                    const hydro = ["NHPC", "BPCL", "CHCL", "AHPC", "SHPC", "API", "RIDI", "BARUN", "UPPER", "RHPL", "SJCL", "HDHPC", "GLH", "SHEL", "RURU", "CHDC", "SAHAS", "NYADI", "MBJC", "GVL", "BHL", "RFPL", "DORDI", "BHDC", "HHL", "UHEWA", "SGHC", "MHL", "USHEC", "RHGCL", "SPHL", "PPL", "SIKLES", "EHPL", "PHCL", "BHPL", "SMHL", "SPL", "SMH", "MKHC", "AHL", "TAMOR", "MHCL", "SMJC", "MAKAR", "MKHL", "DOLTI", "MCHL", "IHL", "MEL", "RAWA", "USHL", "TSHL", "MEHL", "ULHC", "MANDU", "BGWT", "MSHL", "MMKJL", "TVCL", "VLUCL", "CKHL", "BHCL", "MABEL", "DHEL", "BUNGAL", "SOHL", "BJHL", "SKHL", "RLEL", "SKHEL", "SIPD", "KHPL", "APHL", "YMHL", "TPKHL", "SGHL", "KAHL", "MEPDL", "BENH"];
+                    const hotels = ["SHL", "TRH", "OHL", "CGH", "CITY", "HFIN"];
+                    const lifeIns = ["NLICL", "NLIC", "LICN", "ALICL", "HLI", "SJLIC", "PMLI", "SRLI", "ILI", "RNLI", "SNLI", "CLI", "GMLI", "CREST"];
+                    const nonLifeIns = ["NICL", "RBCL", "HEI", "UAIL", "SPIL", "NIL", "PRIN", "SALICO", "IGI", "SICL", "NLG", "SINDU", "SGIC"];
+                    const finance = ["NFS", "GUFL", "BFC", "GFCL", "PFL", "SIFC", "CFCL", "JFL", "GMFIL", "ICFC", "PROFL", "LBBL", "MLBL", "GBBL", "JBBL", "CORBL", "KSBBL", "MPFL", "SADBL", "SHINE", "MNBBL", "MFIL", "RLFL", "GRDBL", "SAPDBL", "SMATA"];
+                    const microfinance = ["NUBL", "CBBL", "DDBL", "SWBBL", "FMDBL", "SLBBL", "SKBBL", "GBLBS", "KMCDB", "MLBBL", "LLBS", "VLBS", "HLBSL", "MATRI", "JSLBB", "NMBMF", "GILB", "SWMF", "MERO", "NMFBS", "RSDC", "FOWAD", "MSLB", "SMB", "USLB", "NADEP", "ACLBSL", "SLBSL", "ALBSL", "GMFBS", "GLBSL", "SMFBS", "ILBS", "NICLBSL", "SMPDA", "MLBSL", "ULBSL", "CYCL", "AVYAN", "DLBS", "SHLB", "UNLB", "ANLB", "SWASTIK", "SABBL"];
+
+                    if (banking.includes(symbol)) return "Commercial Banks";
+                    if (hydro.includes(symbol)) return "Hydropower";
+                    if (hotels.includes(symbol)) return "Hotels & Tourism";
+                    if (lifeIns.includes(symbol)) return "Life Insurance";
+                    if (nonLifeIns.includes(symbol)) return "Non-Life Insurance";
+                    if (finance.includes(symbol)) return "Finance & Development";
+                    if (microfinance.includes(symbol)) return "Microfinance";
+                    return "Others / Manufacturing";
+                }
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    populateFiscalYearOptions('portfolioFySelect');
+                    loadPortfolioData();
+                });
+
+                function switchPortfolioTab(tabName, btnElement) {
+                    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+                    document.querySelectorAll('.portfolio-tab-btn').forEach(el => el.classList.remove('active'));
+
+                    document.getElementById('tab-' + tabName).classList.add('active');
+                    btnElement.classList.add('active');
+                }
+
+                async function loadPortfolioData() {
+                    let fySelect = document.getElementById('portfolioFySelect');
+                    let selectedFY = fySelect ? fySelect.value : getRealTimeFiscalYear();
+                    let storageKey = 'nepse_portfolio_' + selectedFY;
+
+                    let portfolioData = {};
+                    try {
+                        let saved = localStorage.getItem(storageKey);
+                        portfolioData = saved ? JSON.parse(saved) : {};
+                    } catch(e) {
+                        portfolioData = {};
+                    }
+
+                    // Fetch live LTP map
+                    let ltpMap = {};
+                    try {
+                        let resp = await fetch('https://raw.githubusercontent.com/Shubhamnpk/yonepse/main/data/nepse_data.json');
+                        if (resp.ok) {
+                            let marketArr = await resp.json();
+                            let items = Array.isArray(marketArr) ? marketArr : (marketArr.rows || Object.values(marketArr));
+                            items.forEach(st => {
+                                let sym = (st.symbol || st.securitySymbol || '').toUpperCase();
+                                let ltp = parseFloat(st.lastTradedPrice || st.ltp || st.close || 0);
+                                if (sym) ltpMap[sym] = ltp;
+                            });
+                        }
+                    } catch(err) {}
+
+                    let rollupBody = document.getElementById('rollup-table-body');
+                    let purchaseBody = document.getElementById('purchase-table-body');
+                    let sellBody = document.getElementById('sell-table-body');
+                    let sectorContainer = document.getElementById('sector-allocation-container');
+
+                    rollupBody.innerHTML = '';
+                    purchaseBody.innerHTML = '';
+                    sellBody.innerHTML = '';
+
+                    let symbols = Object.keys(portfolioData);
+
+                    if (symbols.length === 0) {
+                        rollupBody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 40px; color: #80cbc4;">No transactions found for FY ${selectedFY.replace('_', '/')}.</td></tr>`;
+                        purchaseBody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 40px; color: #80cbc4;">No purchase records saved.</td></tr>`;
+                        sellBody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 40px; color: #80cbc4;">No sell records saved.</td></tr>`;
+                        sectorContainer.innerHTML = `<p style="color: #80cbc4; text-align: center; padding: 20px;">No active portfolio capital to calculate sector allocation.</p>`;
+                        return;
+                    }
+
+                    let allPurchases = [];
+                    let allSells = [];
+
+                    symbols.forEach(symbol => {
+                        let rec = portfolioData[symbol];
+                        let buys = rec.buys || (rec.buy ? [rec.buy] : []);
+                        let sells = rec.sells || (rec.sell ? [rec.sell] : []);
+
+                        buys.forEach((b, idx) => allPurchases.push({ ...b, symbol, originalIndex: idx }));
+                        sells.forEach((s, idx) => allSells.push({ ...s, symbol, originalIndex: idx }));
+                    });
+
+                    allPurchases.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+                    allSells.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+
+                    // Render Purchase Records
+                    allPurchases.forEach(b => {
+                        let tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${b.date || '--'}</td>
+                            <td style="font-weight: 700; color: #fff;">${b.symbol}</td>
+                            <td style="text-transform: uppercase; font-size: 11px; color: #80cbc4;">${b.buyType || 'Secondary'}</td>
+                            <td style="text-align: right; font-weight: 600;">${b.qty}</td>
+                            <td style="text-align: right;">Rs ${parseFloat(b.price || 0).toFixed(2)}</td>
+                            <td style="text-align: right; font-weight: 600;">Rs ${parseFloat(b.totalAmount || 0).toFixed(2)}</td>
+                            <td style="text-align: center;">
+                                <button class="action-btn" onclick="editRecord('buy', '${b.symbol}', ${b.originalIndex}, '${selectedFY}')">Edit</button>
+                                <button class="action-btn delete" onclick="deleteRecord('buy', '${b.symbol}', ${b.originalIndex}, '${selectedFY}')">Delete</button>
+                            </td>
+                        `;
+                        purchaseBody.appendChild(tr);
+                    });
+
+                    // Render Sell Records
+                    allSells.forEach(s => {
+                        let netProf = parseFloat(s.netProfit || 0);
+                        let profitColor = netProf >= 0 ? '#00e676' : '#ff5252';
+                        let tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${s.date || '--'}</td>
+                            <td style="font-weight: 700; color: #fff;">${s.symbol}</td>
+                            <td style="text-align: right; font-weight: 600;">${s.qty}</td>
+                            <td style="text-align: right;">Rs ${parseFloat(s.price || 0).toFixed(2)}</td>
+                            <td style="text-align: right;">Rs ${parseFloat(s.buyPrice || 0).toFixed(2)}</td>
+                            <td style="text-align: right; font-weight: 600;">Rs ${parseFloat(s.totalAmount || 0).toFixed(2)}</td>
+                            <td style="text-align: right; font-weight: 700; color: ${profitColor};">Rs ${netProf.toFixed(2)}</td>
+                            <td style="text-align: center;">
+                                <button class="action-btn" onclick="editRecord('sell', '${s.symbol}', ${s.originalIndex}, '${selectedFY}')">Edit</button>
+                                <button class="action-btn delete" onclick="deleteRecord('sell', '${s.symbol}', ${s.originalIndex}, '${selectedFY}')">Delete</button>
+                            </td>
+                        `;
+                        sellBody.appendChild(tr);
+                    });
+
+                    // Calculate Holdings, Valuation, and Sector Totals
+                    let totalPortfolioValuation = 0;
+                    let sectorInvestmentMap = {};
+                    let activeHoldingsCount = 0;
+
+                    symbols.forEach(symbol => {
+                        let rec = portfolioData[symbol];
+                        let buys = rec.buys || (rec.buy ? [rec.buy] : []);
+                        let sells = rec.sells || (rec.sell ? [rec.sell] : []);
+
+                        let totalBuyQty = buys.reduce((acc, curr) => acc + parseInt(curr.qty || 0), 0);
+                        let totalBuyCost = buys.reduce((acc, curr) => acc + parseFloat(curr.totalAmount || 0), 0);
+                        let totalSellQty = sells.reduce((acc, curr) => acc + parseInt(curr.qty || 0), 0);
+                        let remainingKitta = totalBuyQty - totalSellQty;
+
+                        if (remainingKitta > 0) {
+                            activeHoldingsCount++;
+                            let avgCost = totalBuyCost / (totalBuyQty || 1);
+                            let totalInvestment = avgCost * remainingKitta;
+                            let currentLtp = ltpMap[symbol] || avgCost;
+                            let marketVal = currentLtp * remainingKitta;
+                            let unrealizedPl = marketVal - totalInvestment;
+                            let plColor = unrealizedPl >= 0 ? '#00e676' : '#ff5252';
+
+                            totalPortfolioValuation += marketVal;
+
+                            // Sector aggregation
+                            let sectorName = getSectorSymbol(symbol);
+                            sectorInvestmentMap[sectorName] = (sectorInvestmentMap[sectorName] || 0) + marketVal;
+
+                            let rRow = document.createElement('tr');
+                            rRow.innerHTML = `
+                                <td style="font-weight: 700; color: #fff;">${symbol}</td>
+                                <td style="text-align: right; font-weight: 600;">${remainingKitta}</td>
+                                <td style="text-align: right;">Rs ${avgCost.toFixed(2)}</td>
+                                <td style="text-align: right;">Rs ${totalInvestment.toFixed(2)}</td>
+                                <td style="text-align: right; font-weight: 700; color: #00bcd4;">Rs ${currentLtp.toFixed(2)}</td>
+                                <td style="text-align: right; font-weight: 600;">Rs ${marketVal.toFixed(2)}</td>
+                                <td style="text-align: right; font-weight: 700; color: ${plColor};">Rs ${unrealizedPl.toFixed(2)}</td>
+                            `;
+                            rollupBody.appendChild(rRow);
+                        }
+                    });
+
+                    if (rollupBody.children.length === 0) {
+                        rollupBody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 40px; color: #80cbc4;">No remaining active holdings.</td></tr>`;
+                        sectorContainer.innerHTML = `<p style="color: #80cbc4; text-align: center; padding: 20px;">No active portfolio capital to calculate sector allocation.</p>`;
+                    } else {
+                        // Render Sector Allocation Progress Bars
+                        sectorContainer.innerHTML = '';
+                        Object.keys(sectorInvestmentMap).forEach(sector => {
+                            let secVal = sectorInvestmentMap[sector];
+                            let percentage = totalPortfolioValuation > 0 ? ((secVal / totalPortfolioValuation) * 100).toFixed(1) : 0;
+
+                            let row = document.createElement('div');
+                            row.className = 'sector-row';
+                            row.innerHTML = `
+                                <span style="width: 180px; font-weight: 600; color: #fff;">${sector}</span>
+                                <div class="sector-progress-bg">
+                                    <div class="sector-progress-fill" style="width: ${percentage}%;"></div>
+                                </div>
+                                <span style="width: 120px; text-align: right; color: #80cbc4;">Rs ${secVal.toLocaleString('en-IN', {maximumFractionDigits: 2})} (${percentage}%)</span>
+                            `;
+                            sectorContainer.appendChild(row);
+                        });
+                    }
+
+                    if (purchaseBody.children.length === 0) {
+                        purchaseBody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 40px; color: #80cbc4;">No purchase records saved.</td></tr>`;
+                    }
+                    if (sellBody.children.length === 0) {
+                        sellBody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 40px; color: #80cbc4;">No sell records saved.</td></tr>`;
+                    }
+                }
+
+                function deleteRecord(type, symbol, index, fy) {
+                    let storageKey = 'nepse_portfolio_' + fy;
+                    try {
+                        let saved = localStorage.getItem(storageKey);
+                        if (saved) {
+                            let portfolio = JSON.parse(saved);
+                            if (portfolio[symbol]) {
+                                let list = (type === 'buy') ? portfolio[symbol].buys : portfolio[symbol].sells;
+                                if (!confirm(`Are you sure you want to delete this ${type} record for ${symbol}?`)) return;
+                                list.splice(index, 1);
+
+                                if ((!portfolio[symbol].buys || portfolio[symbol].buys.length === 0) && (!portfolio[symbol].sells || portfolio[symbol].sells.length === 0)) {
+                                    delete portfolio[symbol];
+                                }
+
+                                localStorage.setItem(storageKey, JSON.stringify(portfolio));
+                                loadPortfolioData();
+                            }
+                        }
+                    } catch(e) {
+                        alert("Error deleting record.");
+                    }
+                }
+
+                function editRecord(type, symbol, index, fy) {
+                    let storageKey = 'nepse_portfolio_' + fy;
+                    try {
+                        let saved = localStorage.getItem(storageKey);
+                        if (saved) {
+                            let portfolio = JSON.parse(saved);
+                            let record = (type === 'buy') ? portfolio[symbol].buys[index] : portfolio[symbol].sells[index];
+
+                            let payload = {
+                                type: type,
+                                symbol: symbol,
+                                index: index,
+                                fy: fy,
+                                data: record
+                            };
+                            sessionStorage.setItem('edit_nepse_target', JSON.stringify(payload));
+                            window.location.href = 'index.html';
+                        }
+                    } catch(e) {
+                        alert("Error loading record for editing.");
+                    }
+                }
+    </script>
+</body>
+</html>

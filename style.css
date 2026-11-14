@@ -1,0 +1,565 @@
+/* --- Global Theme & Reset --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #071313;
+    color: #e0f7fa;
+    box-sizing: border-box;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* --- Professional Background Floating Animation --- */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.float-icon {
+    position: absolute;
+    opacity: 0.04;
+    width: 80px;
+    animation: diagonalDrift 20s linear infinite;
+}
+
+.icon-1 {
+    top: -10%;
+    left: 10%;
+    animation-duration: 25s;
+    animation-delay: 0s;
+}
+
+.icon-2 {
+    top: 20%;
+    left: -10%;
+    animation-duration: 30s;
+    animation-delay: 5s;
+    width: 100px;
+}
+
+.icon-3 {
+    top: 60%;
+    left: -10%;
+    animation-duration: 22s;
+    animation-delay: 2s;
+    width: 70px;
+}
+
+.icon-4 {
+    top: 90%;
+    left: 20%;
+    animation-duration: 28s;
+    animation-delay: 8s;
+    width: 90px;
+}
+
+@keyframes diagonalDrift {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(110vw, -110vh) rotate(360deg);
+    }
+}
+
+/* --- App Wrapper & Navigation --- */
+.app-wrapper {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.portfolio-nav-btn {
+    background-color: #0f2d2d;
+    color: #00e676;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid #236262;
+    transition: all 0.25s ease;
+}
+
+    .portfolio-nav-btn:hover {
+        background-color: #236262;
+        color: #fff;
+        border-color: #00e676;
+    }
+
+/* --- Calculator Container (Wide Layout) --- */
+.calculator-container.wide-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 25px;
+    background-color: rgba(13, 34, 34, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid #236262;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Form Section --- */
+.form-section h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    background-color: #071313;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid #236262;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    color: #a7ffeb;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .tab-btn.active {
+        background-color: #00e676;
+        color: #071313;
+    }
+
+/* --- Inputs Grid Layout --- */
+.inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+    .inputs-grid.sell-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+/* Input Groups */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.inputs-grid.sell-layout .input-group {
+    margin-bottom: 0;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #b2dfdb;
+    margin-bottom: 6px;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 10px 14px;
+    background-color: #071313;
+    border: 1px solid #236262;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+    .input-group input:focus, .input-group select:focus {
+        outline: none;
+        border-color: #00e676;
+    }
+
+/* Main Action Button */
+#calculateBtn {
+    width: 100%;
+    padding: 12px;
+    background-color: #00e676;
+    color: #071313;
+    border: none;
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: opacity 0.2s;
+}
+
+    #calculateBtn:hover {
+        opacity: 0.9;
+    }
+
+/* --- Results Box Section --- */
+.result-box {
+    background-color: rgba(7, 19, 19, 0.95);
+    border: 1px solid #236262;
+    border-radius: 10px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #b2dfdb;
+}
+
+    .result-row span:last-child {
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+.result-box hr {
+    border: none;
+    border-top: 1px solid #236262;
+    margin: 12px 0;
+}
+
+.total-pay span {
+    font-size: 16px;
+    color: #00e676 !important;
+}
+
+#saveBtn {
+    width: 100%;
+    padding: 11px;
+    background-color: #29b6f6;
+    border: none;
+    color: #071313;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 18px;
+    transition: background-color 0.2s;
+}
+
+    #saveBtn:hover {
+        background-color: #4fc3f7;
+    }
+
+/* --- Custom Modal Overlay --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999;
+}
+
+.modal-box {
+    background: #0d2222;
+    border: 1px solid #236262;
+    padding: 25px 30px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 320px;
+    width: 90%;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+}
+
+.modal-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.modal-box h3 {
+    margin: 0 0 10px 0;
+    color: #fff;
+    font-size: 18px;
+}
+
+.modal-box p {
+    color: #b2dfdb;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.modal-btn {
+    background: #00e676;
+    color: #071313;
+    border: none;
+    padding: 8px 24px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Highlight empty/invalid fields when calculate button is pressed */
+.input-error-highlight {
+    border: 2px solid #ff5252 !important;
+    background-color: rgba(255, 82, 82, 0.08) !important;
+    animation: shakeInput 0.3s ease-in-out;
+}
+
+@keyframes shakeInput {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-3px); }
+    80% { transform: translateX(3px); }
+    100% { transform: translateX(0); }
+}
+
+/* Layout for Buy form grid to put Buy Type and Quantity of Shares on the same row */
+#inputsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Group row for Buy Type and Quantity of Shares */
+.buy-inline-row {
+    display: flex;
+    gap: 20px;
+}
+
+    .buy-inline-row .input-group {
+        flex: 1;
+    }
+
+/* Adjust spacing to pull Calculate button upward */
+.calculator-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.calculate-btn {
+    margin-top: 10px !important;
+}
+
+/* --- PROFESSIONAL TERMINAL & LIVE TICKER STYLES --- */
+:root {
+    --bg-primary: #050b0b;
+    --bg-surface: #0b1919;
+    --bg-card: #112525;
+    --border-color: #1f4d4d;
+    --accent-green: #00e676;
+    --accent-cyan: #00bcd4;
+    --text-main: #f0fdf4;
+    --text-muted: #80cbc4;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+/* Top Live Market Section */
+#live-market-section {
+    width: 100%;
+    padding: 24px 32px;
+    background: linear-gradient(180deg, #071212 0%, var(--bg-surface) 100%);
+    border-bottom: 2px solid var(--border-color);
+    box-sizing: border-box;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.market-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 15px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.market-title {
+    color: var(--accent-green);
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.market-status-pill {
+    background: rgba(0, 230, 118, 0.1);
+    border: 1px solid rgba(0, 230, 118, 0.3);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+/* Ticker Grid & Cards Styling */
+#live-ticker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    max-height: 320px;
+    overflow-y: auto;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-right: 6px;
+}
+
+    /* Custom Scrollbar for Ticker */
+    #live-ticker-grid::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #live-ticker-grid::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.2);
+        border-radius: 4px;
+    }
+
+    #live-ticker-grid::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 4px;
+    }
+
+.ticker-card {
+    background: var(--bg-card);
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+    .ticker-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--accent-cyan);
+        box-shadow: 0 4px 12px rgba(0, 188, 212, 0.15);
+    }
+
+.ticker-card-loading {
+    text-align: center;
+    grid-column: 1 / -1;
+    padding: 25px;
+}
+
+.ticker-loading-text {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.ticker-symbol {
+    font-weight: 700;
+    font-size: 14px;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.ticker-price {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent-green);
+    margin: 6px 0;
+}
+
+.ticker-change {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.ticker-error-box {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #ff8a80;
+    padding: 20px;
+}
+
+/* Calculator Layout Adjustments */
+.calculator-scroll-section {
+    padding: 50px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator-wrapper-full {
+    width: 100%;
+}
+
+.custom-input-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.custom-input-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.flex-col-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.label-spaced {
+    margin-bottom: 5px;
+}
+
+.full-width-select, .full-width-input {
+    width: 100%;
+}
+
+.result-box-padded {
+    position: relative;
+    padding-top: 40px;
+}
+
+.portfolio-nav-container {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    display: flex;
+    gap: 195px;
+}
+
+.result-row-tax {
+    color: #ff8a80;
+    font-weight: bold;
+}
+
+.result-row-pershare {
+    color: #00bcd4;
+    font-weight: bold;
+}
