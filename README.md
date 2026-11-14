@@ -45,3 +45,15 @@ A professional-grade, institutional-style web application built for tracking Nep
 * **Version Control:** Git and GitHub (`Sushreet-o`)
 
 ---
+
+## 📷 Screenshots
+
+![Live Market Terminal](Screenshot%202026-11-14%20102649.png)
+
+![Share Calculator](Screenshot%202026-11-14%20102656.png)
+
+![Holding Summary](Screenshot%202026-11-14%20102710.png)
+
+![Sector Allocation](Screenshot%202026-11-14%20102717.png)
+
+![Purchase Records](Screenshot%202026-11-14%20102724.png)
